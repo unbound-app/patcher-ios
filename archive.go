@@ -40,7 +40,7 @@ func extract() {
 }
 
 func archive() {
-	logger.Debugf("Preparing to create IPA at \"%s\"", output)
+	logger.Debugf("Preparing to create ipa at \"%s\"", output)
 
 	format := archiver.Zip{CompressionLevel: flate.BestCompression}
 	zip := directory + ".zip"
