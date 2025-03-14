@@ -40,7 +40,7 @@ func extract() {
 }
 
 func archive() {
-	logger.Debugf("Attempting to archive \"%s\"", directory)
+	logger.Debugf("Preparing to create ipa at \"%s\"", output)
 
 	format := archiver.Zip{CompressionLevel: flate.BestCompression}
 	zip := directory + ".zip"
@@ -57,30 +57,38 @@ func archive() {
 		logger.Info("Previous archive cleaned up.")
 	}
 
-	logger.Infof("Archiving \"%s\" to \"%s\"", directory, zip)
+	logger.Debugf("Creating temporary archive from \"%s\"", directory)
 	err := format.Archive([]string{filepath.Join(directory, "Payload")}, zip)
 	if err != nil {
-		logger.Errorf("Failed to archive \"%s\": %v", zip, err)
+		logger.Errorf("Failed to create archive: %v", err)
 		exit()
 	}
 
-	if _, err := os.Stat("Unbound.ipa"); err == nil {
-		logger.Debug("Detected previous Unbound IPA, cleaning it up...")
+	// Check if output file already exists and remove it if necessary
+	if _, err := os.Stat(output); err == nil {
+		logger.Debugf("Detected existing file at output path, cleaning it up...")
 
-		err := os.Remove("Unbound.ipa")
+		err := os.Remove(output)
 		if err != nil {
-			logger.Errorf("Failed to clean up previous Unbound IPA: %s", err)
+			logger.Errorf("Failed to clean up existing output file: %s", err)
 			exit()
 		}
 
-		logger.Info("Previous Unbound IPA cleaned up.")
+		logger.Info("Existing output file cleaned up.")
 	}
 
-	err = os.Rename(zip, "Unbound.ipa")
-	if err != nil {
-		logger.Errorf("Failed to rename \"%s\": %v", zip, err)
+	// Create output directory if it doesn't exist
+	outputDir := filepath.Dir(output)
+	if err := os.MkdirAll(outputDir, 0755); err != nil {
+		logger.Errorf("Failed to create output directory: %v", err)
 		exit()
 	}
 
-	logger.Infof("Successfully archived \"%s\" to \"Unbound.ipa\"", zip)
+	err = os.Rename(zip, output)
+	if err != nil {
+		logger.Errorf("Failed to create output file \"%s\": %v", output, err)
+		exit()
+	}
+
+	logger.Infof("Successfully created \"%s\"", output)
 }
