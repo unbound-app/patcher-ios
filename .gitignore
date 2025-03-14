@@ -21,6 +21,5 @@
 # Go workspace file
 go.work
 
-# Patcher files
-Unbound.ipa
-Unbound
+# macOS
+*.DS_Store
