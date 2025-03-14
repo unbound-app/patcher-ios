@@ -27,20 +27,35 @@ func setIcons() {
 
 	logger.Info("Downloaded app icons.")
 
-	logger.Debug("Applying app icons...")
+	logger.Debug("Adding Unbound as alternate icon...")
 
-	info["CFBundleIcons"].(map[string]interface{})["CFBundlePrimaryIcon"].(map[string]interface{})["CFBundleIconName"] = "UnboundIcon"
-	info["CFBundleIcons"].(map[string]interface{})["CFBundlePrimaryIcon"].(map[string]interface{})["CFBundleIconFiles"] = []string{"UnboundIcon60x60"}
-	info["CFBundleIcons~ipad"].(map[string]interface{})["CFBundlePrimaryIcon"].(map[string]interface{})["CFBundleIconName"] = "UnboundIcon"
-	info["CFBundleIcons~ipad"].(map[string]interface{})["CFBundlePrimaryIcon"].(map[string]interface{})["CFBundleIconFiles"] = []string{"UnboundIcon60x60", "UnboundIcon76x76"}
+	// Add UnboundIcon to iPhone alternate icons
+	iPhoneIcons := info["CFBundleIcons"].(map[string]interface{})
+	if iPhoneIcons["CFBundleAlternateIcons"] == nil {
+		iPhoneIcons["CFBundleAlternateIcons"] = make(map[string]interface{})
+	}
+	alternateIcons := iPhoneIcons["CFBundleAlternateIcons"].(map[string]interface{})
+	alternateIcons["UnboundIcon"] = map[string]interface{}{
+		"CFBundleIconFiles": []string{"UnboundIcon60x60"},
+	}
+
+	// Add UnboundIcon to iPad alternate icons
+	iPadIcons := info["CFBundleIcons~ipad"].(map[string]interface{})
+	if iPadIcons["CFBundleAlternateIcons"] == nil {
+		iPadIcons["CFBundleAlternateIcons"] = make(map[string]interface{})
+	}
+	alternateIconsIpad := iPadIcons["CFBundleAlternateIcons"].(map[string]interface{})
+	alternateIconsIpad["UnboundIcon"] = map[string]interface{}{
+		"CFBundleIconFiles": []string{"UnboundIcon60x60", "UnboundIcon76x76"},
+	}
 
 	zip := archiver.Zip{OverwriteExisting: true}
 	discord := filepath.Join(directory, "Payload", "Discord.app")
 
 	if err := zip.Unarchive(icons, discord); err == nil {
-		logger.Info("Applied app icons.")
+		logger.Info("Added Unbound as alternate app icon.")
 	} else {
-		logger.Errorf("Failed to apply app icons: %v", err)
+		logger.Errorf("Failed to add Unbound app icon: %v", err)
 		exit()
 	}
 }
