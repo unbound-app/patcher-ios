@@ -68,13 +68,13 @@ func loadInfo() {
 	file, err := os.Open(path)
 
 	if err != nil {
-		logger.Error("Couldn't find Info.plist. Is the provided zip an IPA file?")
+		logger.Error("Couldn't find Info.plist. Is the provided zip an ipa file?")
 		exit()
 	}
 
 	decoder := plist.NewDecoder(file)
 	if err := decoder.Decode(&info); err != nil {
-		logger.Error("Couldn't find Info.plist. Is the provided zip an IPA file?")
+		logger.Error("Couldn't find Info.plist. Is the provided zip an ipa file?")
 		exit()
 	}
 }

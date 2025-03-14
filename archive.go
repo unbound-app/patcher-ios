@@ -65,15 +65,15 @@ func archive() {
 	}
 
 	if _, err := os.Stat("Unbound.ipa"); err == nil {
-		logger.Debug("Detected previous Unbound IPA, cleaning it up...")
+		logger.Debug("Detected previous Unbound ipa, cleaning it up...")
 
 		err := os.Remove("Unbound.ipa")
 		if err != nil {
-			logger.Errorf("Failed to clean up previous Unbound IPA: %s", err)
+			logger.Errorf("Failed to clean up previous Unbound ipa: %s", err)
 			exit()
 		}
 
-		logger.Info("Previous Unbound IPA cleaned up.")
+		logger.Info("Previous Unbound ipa cleaned up.")
 	}
 
 	err = os.Rename(zip, "Unbound.ipa")

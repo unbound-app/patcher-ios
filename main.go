@@ -17,7 +17,7 @@ var logger = log.NewWithOptions(os.Stderr, log.Options{
 })
 
 var (
-	info      map[string]interface{}
+	info      map[string]any
 	directory string
 	assets    string
 	ipa       string
@@ -26,24 +26,21 @@ var (
 func main() {
 	app := &cli.App{
 		Name:  "patcher-ios",
-		Usage: "Patches the Discord IPA with icons, utilities and features to ease usability.",
+		Usage: "Patches the Discord ipa with icons, utilities and features to ease usability.",
 		Action: func(context *cli.Context) error {
 			ipa = context.Args().Get(0)
 
 			if ipa == "" {
-				logger.Error("Please provide a path to the IPA.")
+				logger.Error("Please provide a path to the ipa.")
 				os.Exit(1)
 			}
 
-			logger.Infof("Requested IPA patch for \"%s\"", ipa)
+			logger.Infof("Requested ipa patch for \"%s\"", ipa)
 
 			extract()
 			loadInfo()
 
 			setReactNavigationName()
-			setSupportedDevices()
-			setFileAccess()
-			setAppName()
 			setIcons()
 
 			saveInfo()

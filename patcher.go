@@ -19,32 +19,6 @@ type Manifest struct {
 	Hashes map[string]string `json:"hashes"`
 }
 
-func setSupportedDevices() {
-	logger.Debug("Setting supported devices...")
-
-	delete(info, "UISupportedDevices")
-
-	logger.Info("Supported devices set.")
-}
-
-func setAppName() {
-	logger.Debug("Setting app name...")
-
-	info["CFBundleName"] = "Unbound"
-	info["CFBundleDisplayName"] = "Unbound"
-
-	logger.Info("App name set.")
-}
-
-func setFileAccess() {
-	logger.Debug("Setting file access...")
-
-	info["UISupportsDocumentBrowser"] = true
-	info["UIFileSharingEnabled"] = true
-
-	logger.Info("File access enabled.")
-}
-
 func setIcons() {
 	logger.Debug("Downloading app icons...")
 
@@ -90,7 +64,7 @@ func setReactNavigationName() {
 	content, err := os.ReadFile(manifestPath)
 
 	if err != nil {
-		logger.Errorf("Couldn't find manifest.json inside the IPA payload. %v", err)
+		logger.Errorf("Couldn't find manifest.json inside the ipa payload. %v", err)
 		exit()
 	}
 
