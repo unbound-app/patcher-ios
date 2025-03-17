@@ -74,6 +74,9 @@ func main() {
 			loadInfo()
 
 			setReactNavigationName()
+			setSupportedDevices()
+			setFileAccess()
+			setAppName()
 			setIcons()
 
 			saveInfo()
