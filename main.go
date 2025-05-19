@@ -78,6 +78,7 @@ func main() {
 			setFileAccess()
 			setAppName()
 			setIcons()
+			setURLScheme()
 
 			saveInfo()
 			archive()
