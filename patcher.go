@@ -184,3 +184,17 @@ func setReactNavigationName() {
 
 	logger.Info("Successfully renamed React Navigation directories.")
 }
+
+func setURLScheme() {
+	logger.Debug("Setting URL scheme...")
+
+	urlScheme := map[string]interface{}{
+		"CFBundleTypeRole":   "Editor",
+		"CFBundleURLName":    "app.unbound.url-scheme",
+		"CFBundleURLSchemes": []string{"unbound"},
+	}
+
+	info["CFBundleURLTypes"] = []interface{}{urlScheme}
+
+	logger.Info("URL scheme set.")
+}
