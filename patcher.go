@@ -190,7 +190,7 @@ func setURLScheme() {
 
 	urlScheme := map[string]interface{}{
 		"CFBundleTypeRole":   "Editor",
-		"CFBundleURLName":    "app.unbound.url-scheme",
+		"CFBundleURLName":    "app.unbound.rip",
 		"CFBundleURLSchemes": []string{"unbound"},
 	}
 
