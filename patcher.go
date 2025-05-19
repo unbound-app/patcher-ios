@@ -194,7 +194,11 @@ func setURLScheme() {
 		"CFBundleURLSchemes": []string{"unbound"},
 	}
 
-	info["CFBundleURLTypes"] = []interface{}{urlScheme}
-
-	logger.Info("URL scheme set.")
+	if existingURLTypes, ok := info["CFBundleURLTypes"].([]interface{}); ok {
+		info["CFBundleURLTypes"] = append(existingURLTypes, urlScheme)
+		logger.Info("Added URL scheme to existing schemes.")
+	} else {
+		info["CFBundleURLTypes"] = []interface{}{urlScheme}
+		logger.Info("Created new URL scheme entry.")
+	}
 }
